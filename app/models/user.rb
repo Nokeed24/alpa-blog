@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :articles #associations
+  has_many :articles, dependent: :destroy #associations IT WILL DESTROY all articles if the user is destroyed
   before_save { self.email = email.downcase } #converts email to downcase before saving
   validates :username, presence: true,
             uniqueness: { case_sensitive: false },
