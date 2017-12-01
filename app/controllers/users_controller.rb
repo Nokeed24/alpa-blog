@@ -1,5 +1,6 @@
 class UsersController <ApplicationController
 
+  before_action :require_log_in, only: [:edit]
   before_action :set_user, only: [:edit, :update, :show]
   before_action :require_same_user, only: [:edit, :update, :destroy]
   before_action :require_admin, only: [:destroy]
@@ -54,6 +55,13 @@ class UsersController <ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def require_log_in
+    if !logged_in?
+      flash[:danger] = "You cannot perform this action"
+      redirect_to root_path
+    end
   end
 
   def require_same_user
